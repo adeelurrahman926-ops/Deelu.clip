@@ -3,52 +3,53 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ClipGenius AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deelu Clips AI</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0b0b14;color:#fff;font-family:Arial,sans-serif;padding:22px}
+body{background:#0b0b14;color:white;font-family:Arial,sans-serif;padding:20px}
 .container{max-width:850px;margin:auto}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:55px}
-.logo{font-size:23px;font-weight:bold;color:#a78bfa}
-.tag{background:#242038;padding:8px 12px;border-radius:20px;font-size:12px}
+header{display:flex;justify-content:space-between;align-items:center;margin:20px 0 55px}
+.logo{font-size:24px;font-weight:bold;color:#a78bfa}
+.tag{background:#242038;padding:10px;border-radius:20px;font-size:12px}
 .hero{text-align:center;margin-bottom:35px}
-.hero h1{font-size:38px;margin-bottom:15px}
-.hero h1 span{color:#a78bfa}
-.hero p{color:#aaa;line-height:1.6}
-.panel{background:#171625;border:1px solid #302b43;padding:22px;border-radius:16px}
-label{display:block;margin:15px 0 9px;font-size:14px;color:#ccc}
-input,select{width:100%;padding:15px;background:#0d0d18;color:white;border:1px solid #39334d;border-radius:9px;font-size:15px}
-button{width:100%;padding:15px;margin-top:20px;border:0;border-radius:9px;background:linear-gradient(90deg,#7652e8,#a855f7);color:white;font-size:16px;font-weight:bold;cursor:pointer}
+.hero h1{font-size:36px;margin-bottom:15px}
+.hero span{color:#a78bfa}
+.hero p{color:#aaa;line-height:1.7}
+.panel,.clip{background:#171625;border:1px solid #302b43;padding:22px;border-radius:16px}
+label{display:block;margin:18px 0 9px;color:#ccc;font-size:14px}
+input,select,textarea{width:100%;padding:15px;background:#0d0d18;color:white;border:1px solid #39334d;border-radius:9px;font-size:15px}
+textarea{min-height:180px;resize:vertical;line-height:1.6}
+button{width:100%;padding:16px;margin-top:20px;border:0;border-radius:9px;background:linear-gradient(90deg,#7652e8,#a855f7);color:white;font-size:16px;font-weight:bold}
 button:disabled{opacity:.5}
-.status{margin-top:18px;color:#b9a5ff;text-align:center;font-size:14px}
+.status{text-align:center;color:#b9a5ff;margin-top:17px;line-height:1.5}
 .results{margin-top:35px}
-.results h2{margin-bottom:15px;font-size:20px}
-.clip{background:#171625;border:1px solid #302b43;padding:18px;border-radius:12px;margin-bottom:12px}
-.clip h3{margin-bottom:10px}
-.clip p{font-size:13px;color:#aaa;margin-top:6px}
-.score{color:#a78bfa;font-weight:bold}
-.note{color:#888;font-size:12px;text-align:center;margin-top:25px;line-height:1.6}
+.results h2{margin-bottom:18px}
+.clip{margin-bottom:13px}
+.clip h3{margin-bottom:12px}
+.clip p{color:#bbb;font-size:14px;margin-top:8px}
+.score{color:#b9a5ff!important;font-weight:bold}
+.note{font-size:12px;color:#888;margin-top:18px;line-height:1.6}
 footer{text-align:center;color:#777;margin-top:45px;font-size:12px}
-@media(max-width:500px){.hero h1{font-size:29px}body{padding:17px}}
 </style>
 </head>
 <body>
 <div class="container">
 
 <header>
-<div class="logo">✂ ClipGenius AI</div>
+<div class="logo">✂ Deelu Clips</div>
 <div class="tag">AI VIDEO CLIPPER</div>
 </header>
 
 <section class="hero">
 <h1>Turn Long Videos Into <span>Viral Clips</span></h1>
-<p>Find interesting moments from your videos.<br>Create Shorts, Reels and TikTok clips.</p>
+<p>Discover interesting moments with Artificial Intelligence.</p>
 </section>
 
 <section class="panel">
+
 <label>YouTube Video or Stream URL</label>
-<input id="videoUrl" type="url" placeholder="Paste your YouTube link here">
+<input id="videoUrl" type="url" placeholder="Paste YouTube URL">
 
 <label>Clip Duration</label>
 <select id="duration">
@@ -57,62 +58,118 @@ footer{text-align:center;color:#777;margin-top:45px;font-size:12px}
 <option value="60">60 Seconds</option>
 </select>
 
-<label>Video Format</label>
-<select id="format">
-<option value="9:16">Vertical 9:16</option>
-<option value="16:9">Landscape 16:9</option>
-</select>
+<label>Timestamped Video Transcript</label>
+<textarea id="transcript" placeholder="[00:00] Welcome everyone...
+[00:15] Today I will show you something amazing...
+[00:35] This is the most surprising moment..."></textarea>
 
-<button id="generate" onclick="generateClips()">Generate Viral Clips ✨</button>
+<p class="note">Paste a transcript with timestamps. The YouTube URL is currently saved for reference only. Automatic transcription will be added later.</p>
+
+<button id="generate" onclick="generateClips()">Analyze With Gemini AI ✨</button>
+
 <div class="status" id="status"></div>
 </section>
 
 <section class="results" id="results"></section>
 
-<p class="note">
-Current version is a frontend demo. AI analysis and actual MP4 generation will be connected in the next development stages.
-</p>
-
-<footer>© 2026 ClipGenius AI. All rights reserved.</footer>
-
+<footer>© 2026 Deelu Clips AI</footer>
 </div>
 
 <script>
-function generateClips(){
-const url=document.getElementById("videoUrl").value.trim();
-const status=document.getElementById("status");
-const results=document.getElementById("results");
-const button=document.getElementById("generate");
+const API_URL = "https://deeluclip.vercel.app/api/analyze";
 
-if(!url || !url.includes("youtube.com") && !url.includes("youtu.be")){
-status.textContent="Please enter a valid YouTube URL.";
+async function generateClips(){
+
+const url = document.getElementById("videoUrl").value.trim();
+const transcript = document.getElementById("transcript").value.trim();
+const duration = Number(document.getElementById("duration").value);
+
+const status = document.getElementById("status");
+const results = document.getElementById("results");
+const button = document.getElementById("generate");
+
+if(!url){
+status.textContent = "Please enter a YouTube URL.";
 return;
 }
 
-button.disabled=true;
-status.textContent="Preparing demo preview...";
-results.innerHTML="";
+if(!url.includes("youtube.com") && !url.includes("youtu.be")){
+status.textContent = "Please enter a valid YouTube URL.";
+return;
+}
 
-setTimeout(()=>{
-status.textContent="Demo preview ready. AI processing is not connected yet.";
+if(transcript.length < 50){
+status.textContent = "Please paste at least 50 characters of transcript.";
+return;
+}
 
-results.innerHTML=`
-<h2>Sample Clip Suggestions</h2>
-<div class="clip">
-<h3>🔥 Best Interesting Moment</h3>
-<p>Timestamp: 00:01:20 - 00:01:50</p>
-<p>Duration: ${document.getElementById("duration").value} seconds</p>
-<p class="score">Sample potential score: 95/100</p>
-</div>
-<div class="clip">
-<h3>⭐ Another Interesting Moment</h3>
-<p>Timestamp: 00:03:10 - 00:03:40</p>
-<p>Duration: ${document.getElementById("duration").value} seconds</p>
-<p class="score">Sample potential score: 88/100</p>
-</div>
-`;
-button.disabled=false;
-},1200);
+button.disabled = true;
+results.innerHTML = "";
+status.textContent = "Gemini AI is analyzing your transcript...";
+
+try{
+
+const response = await fetch(API_URL,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+transcript:transcript,
+duration:duration
+})
+});
+
+const data = await response.json();
+
+if(!response.ok){
+throw new Error(data.error || "AI request failed");
+}
+
+if(!Array.isArray(data.clips)){
+throw new Error("Invalid AI response");
+}
+
+status.textContent = "AI analysis completed successfully!";
+
+results.innerHTML = "<h2>✨ AI Generated Clip Suggestions</h2>";
+
+if(data.clips.length === 0){
+results.innerHTML += "<p>No suitable clips found.</p>";
+}
+
+data.clips.forEach((clip,index)=>{
+
+const card = document.createElement("div");
+card.className = "clip";
+
+const title = document.createElement("h3");
+title.textContent = "🔥 " + clip.title;
+
+const time = document.createElement("p");
+time.textContent = "Start: " + clip.start + "s | End: " + clip.end + "s";
+
+const score = document.createElement("p");
+score.className = "score";
+score.textContent = "AI Potential Score: " + clip.score + "/100";
+
+const reason = document.createElement("p");
+reason.textContent = "Reason: " + clip.reason;
+
+card.append(title,time,score,reason);
+results.appendChild(card);
+
+});
+
+}catch(error){
+
+status.textContent = "Error: " + error.message;
+
+}finally{
+
+button.disabled = false;
+
+}
 }
 </script>
 </body>
