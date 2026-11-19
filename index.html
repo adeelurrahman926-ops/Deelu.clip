@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClipGenius AI</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0b0b14;color:#fff;font-family:Arial,sans-serif;padding:22px}
+.container{max-width:850px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:55px}
+.logo{font-size:23px;font-weight:bold;color:#a78bfa}
+.tag{background:#242038;padding:8px 12px;border-radius:20px;font-size:12px}
+.hero{text-align:center;margin-bottom:35px}
+.hero h1{font-size:38px;margin-bottom:15px}
+.hero h1 span{color:#a78bfa}
+.hero p{color:#aaa;line-height:1.6}
+.panel{background:#171625;border:1px solid #302b43;padding:22px;border-radius:16px}
+label{display:block;margin:15px 0 9px;font-size:14px;color:#ccc}
+input,select{width:100%;padding:15px;background:#0d0d18;color:white;border:1px solid #39334d;border-radius:9px;font-size:15px}
+button{width:100%;padding:15px;margin-top:20px;border:0;border-radius:9px;background:linear-gradient(90deg,#7652e8,#a855f7);color:white;font-size:16px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.5}
+.status{margin-top:18px;color:#b9a5ff;text-align:center;font-size:14px}
+.results{margin-top:35px}
+.results h2{margin-bottom:15px;font-size:20px}
+.clip{background:#171625;border:1px solid #302b43;padding:18px;border-radius:12px;margin-bottom:12px}
+.clip h3{margin-bottom:10px}
+.clip p{font-size:13px;color:#aaa;margin-top:6px}
+.score{color:#a78bfa;font-weight:bold}
+.note{color:#888;font-size:12px;text-align:center;margin-top:25px;line-height:1.6}
+footer{text-align:center;color:#777;margin-top:45px;font-size:12px}
+@media(max-width:500px){.hero h1{font-size:29px}body{padding:17px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+<div class="logo">✂ ClipGenius AI</div>
+<div class="tag">AI VIDEO CLIPPER</div>
+</header>
+
+<section class="hero">
+<h1>Turn Long Videos Into <span>Viral Clips</span></h1>
+<p>Find interesting moments from your videos.<br>Create Shorts, Reels and TikTok clips.</p>
+</section>
+
+<section class="panel">
+<label>YouTube Video or Stream URL</label>
+<input id="videoUrl" type="url" placeholder="Paste your YouTube link here">
+
+<label>Clip Duration</label>
+<select id="duration">
+<option value="30">30 Seconds</option>
+<option value="45">45 Seconds</option>
+<option value="60">60 Seconds</option>
+</select>
+
+<label>Video Format</label>
+<select id="format">
+<option value="9:16">Vertical 9:16</option>
+<option value="16:9">Landscape 16:9</option>
+</select>
+
+<button id="generate" onclick="generateClips()">Generate Viral Clips ✨</button>
+<div class="status" id="status"></div>
+</section>
+
+<section class="results" id="results"></section>
+
+<p class="note">
+Current version is a frontend demo. AI analysis and actual MP4 generation will be connected in the next development stages.
+</p>
+
+<footer>© 2026 ClipGenius AI. All rights reserved.</footer>
+
+</div>
+
+<script>
+function generateClips(){
+const url=document.getElementById("videoUrl").value.trim();
+const status=document.getElementById("status");
+const results=document.getElementById("results");
+const button=document.getElementById("generate");
+
+if(!url || !url.includes("youtube.com") && !url.includes("youtu.be")){
+status.textContent="Please enter a valid YouTube URL.";
+return;
+}
+
+button.disabled=true;
+status.textContent="Preparing demo preview...";
+results.innerHTML="";
+
+setTimeout(()=>{
+status.textContent="Demo preview ready. AI processing is not connected yet.";
+
+results.innerHTML=`
+<h2>Sample Clip Suggestions</h2>
+<div class="clip">
+<h3>🔥 Best Interesting Moment</h3>
+<p>Timestamp: 00:01:20 - 00:01:50</p>
+<p>Duration: ${document.getElementById("duration").value} seconds</p>
+<p class="score">Sample potential score: 95/100</p>
+</div>
+<div class="clip">
+<h3>⭐ Another Interesting Moment</h3>
+<p>Timestamp: 00:03:10 - 00:03:40</p>
+<p>Duration: ${document.getElementById("duration").value} seconds</p>
+<p class="score">Sample potential score: 88/100</p>
+</div>
+`;
+button.disabled=false;
+},1200);
+}
+</script>
+</body>
+</html>
