@@ -47,7 +47,7 @@ export default async function handler(req, res) {
           "x-goog-api-key": apiKey
         },
         body: JSON.stringify({
-          model: "gemini-3.8-flash",
+          model: "gemini-3.5-flash-lite",
           input: `Analyze this transcript and find up to 5 engaging short video clips.
 
 Each clip should be approximately ${duration} seconds.
